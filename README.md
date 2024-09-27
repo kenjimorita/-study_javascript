@@ -5,6 +5,7 @@
 **更新情報**
 
 ```txt
+・constをletに修正、問題を追加(2024/9/27)
 ・問題を追加(2024/7/20)
 ・問題を追加(2024/4/12)
 ・リファクタリング(2023/4/22)
@@ -227,7 +228,7 @@ array.join("");
 const array = ['a', 'b', 'c'];
 let str = '';
 const count = array.length;
-for(const i= 0; i < count; i++){
+for(let i= 0; i < count; i++){
   str += array[i];
 }
 str
@@ -2482,14 +2483,14 @@ div要素を10個作ってidがparentの子要素として追加してくださ�
 ```js
 //bad
 const parent = document.getElementById('parent');
-for(const i = 0; i < 10; i++){
+for(let i = 0; i < 10; i++){
   const child = document.createElement('div');
   parent.appendChild(child);;
 }
 
 //good
 const fragment = document.createDocumentFragment();
-for(const i = 0; i < 10; i++){
+for(let i = 0; i < 10; i++){
   const child = document.createElement('div');
   fragment.appendChild(child);
 }
@@ -5407,7 +5408,7 @@ if (color in colorObj) {
 
 function toObject(arry){
  const obj = {};
- for(const i = 0; i < arry.length; i++){
+ for(let i = 0; i < arry.length; i++){
    obj[i] = arry[i];
  }
  return obj
@@ -5424,7 +5425,7 @@ toObject(arry);
 ```js
 let html = '';
 const count = 10;
-for(const i = 0;i < count; i++){
+for(let i = 0;i < count; i++){
  html += 'hai!!';
 }
 document.querySelector('#mngb').innerHtml = html;
@@ -5436,7 +5437,7 @@ document.querySelector('#mngb').innerHtml = html;
 ```js
 const html = [];
 const count = 10;
-for(const i = 0; i < count; i++){
+for(let i = 0; i < count; i++){
  html.push('hei!!');
 }
 document.querySelector('#mngb').innerHtml = html.join('');
@@ -6268,7 +6269,7 @@ const obj = {
 ```js
 
 const foo = document.getElementById('foo');
-for(const i = 0; i < foo.classList.length; i++) {
+for(let i = 0; i < foo.classList.length; i++) {
  console.log(foo.classList[i]);
 }
 
@@ -6971,7 +6972,7 @@ coを使って、1から始まり1秒ごとにインクルメントされた値�
   };
 
   const num = co.wrap(function* (num){
-    for(const i = 1; i <= num; i++) {
+    for(let i = 1; i <= num; i++) {
      yield sleep(i);
      console.log(i)
     }
@@ -9042,7 +9043,7 @@ let high = temp.findLast((t) => t > 40);
 // ES2023
 ```
 
-**問題388**
+**問題389**
 
 こちらの気温リストの中で41度以上のインデックスを取得してください。
 
@@ -9059,7 +9060,7 @@ let index = temp.findLastIndex((t) => t > 40);
 // ES2023
 ```
 
-**問題389**
+**問題390**
 
 こちらの配列
 
@@ -9077,7 +9078,7 @@ newMonths // ["Januar", "Februar", "March", "April"];
 // ES2023
 ```
 
-**問題390**
+**問題391**
 
 こちらの配列
 
@@ -9097,7 +9098,29 @@ spliced // ["Feb", "Mar", "Apr"]
 
 > ES2023では、元の配列を変更せずに配列を分割する安全な方法として、Array toSpliced()メソッドが追加されました。 新しいtoSpliced()メソッドと古いsplice()メソッドの違いは、新しいメソッドは元の配列を変更せずに新しい配列を作成するのに対し、古いメソッドは元の配列を変更する点です。
 
-**問題391**
+**問題392**
+
+こちらの配列
+
+```js
+const nums = [1, 4, 3, 2];
+```
+
+の要素である数値を順番通りにする配列newNumsを作ってください。
+
+`[1,2,3,4]`
+
+尚、元の配列numsは破壊してはいけません。
+
+```js
+const newNums = nums.toSorted();
+
+
+// ES2023
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted
+```
+
+**問題393**
 
 `[1, 2, 3]`と`[1,2,4]`があります。どちらにも含まれている値をSetで取得してください。
 
@@ -9108,7 +9131,7 @@ set // Set{1, 2}
 
 Set.intersectionは要素と引数のうちどちらにも含まれるものを返します(AND)
 
-**問題392**
+**問題394**
 
 `[1, 2]`と`[1, 3]`があります。要素と引数のうち少なくともどちらか片方に含まれるものをSet型で返してください
 
@@ -9119,7 +9142,7 @@ set // Set{1, 2, 3}
 
 > Set.union 要素と引数のうち少なくともどちらか片方に含まれるものを返す OR
 
-**問題393**
+**問題395**
 
 `[1, 2]`と`[1, 3]`があります。要素の中で引数に含まれないものをSet型で返してください
 
@@ -9130,7 +9153,7 @@ set // Set{2}
 
 > Set.difference 要素の中で引数に含まれないものを返す 差集合
 
-**問題394**
+**問題396**
 
 `[1, 2]`と`[1, 3]`があります。要素と引数どちらか一方にしか含まれないものをSet値で返してください
 
@@ -9142,6 +9165,26 @@ set // Set{2, 3}
 ```
 
 > Set.symmetricDifference 要素と引数どちらか一方にしか含まれないものを返す XOR
+
+
+**問題397**
+
+次の配列
+
+```js
+let array = [1, 2, 3, 4, 5]
+```
+
+を数値`n`を与えたらindexが`n分`右に移動する関数を書いてください
+
+例えば`n=2`だとすると結果は
+
+```js
+[4, 5, 1, 2, 3]
+```
+
+になります
+
 
 ---
 [付録] 便利かもしれないユーティリティ関数
@@ -9239,4 +9282,5 @@ console.log(hasOwnDeepProperty(obj, 'another')); // false
 <https://www.sitepoint.com/javascript-decorators-what-they-are/>
 <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set>
 <https://tc39.es/proposal-set-methods/#sec-set.prototype.intersection>
+<https://stackoverflow.com/questions/47947697/for-which-use-cases-does-array-prototype-copywithin-exist>
 </details>
